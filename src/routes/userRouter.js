@@ -12,7 +12,7 @@ userRouter.post('/create', (req, res) => {
 });
 
 userRouter.patch('/:id', (req, res) => {
-	User.findByIdAndUpdate(req.params.id, { $set: { username: req.body.username } }, { useValidators: true, useFindAndModify: false }, function (err, result) {
+	User.findByIdAndUpdate(req.params.id, { $set: { ...req.body } }, { runValidators: true, useFindAndModify: false }, function (err, result) {
 		if (err)
 			res.status(400).send(`Can't modify user props: ${err.message}`);
 		else
