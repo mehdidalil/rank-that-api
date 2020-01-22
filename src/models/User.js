@@ -16,16 +16,10 @@ const usersSchema = mongoose.Schema({
 		maxlength: [32, 'should be under 32 characters long'],
 		validate: REGEX_PASSWORD,
 	},
-	mail: String
+	mail: {
+		type: String,
+		unique: true
+	}
 });
-
-usersSchema.pre('save', function(next) {
-	this.constructor.findOne({mail: this.mail}, function (err, res) {
-		if (res)
-			next(new Error('Already existing !'));
-		else
-			next();
-	});
-})
 
 export default mongoose.model("users", usersSchema);
