@@ -19,7 +19,13 @@ const usersSchema = mongoose.Schema({
 	mail: String
 });
 
-usersSchema.pre('save', (next) => {
-});
+usersSchema.pre('save', function(next) {
+	this.constructor.findOne({mail: this.mail}, function (err, res) {
+		if (res)
+			next(new Error('Already existing !'));
+		else
+			next();
+	});
+})
 
 export default mongoose.model("users", usersSchema);
